@@ -1,3 +1,28 @@
+# v0.4.5
+- Moved [CmdletBinding()] to the above param. Synopsis was not displaying.
+
+# v0.4.4
+- Added `Get-OpenAIEdit`. Given a prompt and an instruction, the model will return an edited version of the prompt. Thank you [Skatterbrainz](https://github.com/Skatterbrainz)
+
+# v0.4.3
+- Added `-Method POST` to `Get-OpenAIModeration`. Thank you [Skatterbrainz](https://github.com/Skatterbrainz)
+
+# v0.4.2
+- Change `-temperature` default to 0
+
+# v0.4.1
+- Thank you to [Pieter Jan Geutjens](https://github.com/pjgeutjens)
+    - Added `-temperature` param to `ai` and `copilot`
+    - Changed the input type from `int` to `decimal`
+    - Changed the range on temperature from [0,1] to [0,2] according to the API documentation
+
+# v0.4.0
+- Refactored to use `Invoke-OpenAIAPI` function. This function is used by all the other functions in the module. This allows for a single place to update the API URL and the API Key. 
+- Add `Get-*` functions for OpenAI URIs
+- Took the function suggestions from [Skatterbrainz](https://github.com/Skatterbrainz) and updated with `Invoke-OpenAIAPI`  the refactor: https://github.com/dfinke/PowerShellAI/pull/30
+- Refactored `Get-DalleImage` to use `Invoke-OpenAIAPI`
+- Refactored `Get-GPT3Completion` to use `Invoke-OpenAIAPI`
+
 # v0.3.3
 - Check if `$result.choices` is not null before trying to access it. Thank you [StartAutomating](https://github.com/StartAutomating)
 - Examples added to comment based help in `copilot`. Thank you [Wes Stahler](https://github.com/stahler)

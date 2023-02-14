@@ -1,5 +1,4 @@
 function Get-GPT3Completion {
-    [CmdletBinding()]
     <#
         .SYNOPSIS
         Get a completion from the OpenAI GPT-3 API
@@ -34,28 +33,29 @@ function Get-GPT3Completion {
         .EXAMPLE
         Get-GPT3Completion -prompt "What is 2%2? - please explain"
     #>
+    [CmdletBinding()]
     [alias("gpt")]
     param(
         [Parameter(Mandatory)]
         $prompt,
         $model = 'text-davinci-003',
-        [ValidateRange(0, 1)]
-        [int]$temperature,
+        [ValidateRange(0, 2)]
+        [decimal]$temperature = 0.0,
         [ValidateRange(1, 2048)]
         [int]$max_tokens = 256,
         [ValidateRange(0, 1)]
-        [int]$top_p = 1,
+        [decimal]$top_p = 1.0,
         [ValidateRange(-2, 2)]
-        [int]$frequency_penalty = 0,
+        [decimal]$frequency_penalty = 0,
         [ValidateRange(-2, 2)]
-        [int]$presence_penalty = 0,
+        [decimal]$presence_penalty = 0,
         $stop,
         [Switch]$Raw
     )
 
-    if (!(Test-OpenAIKey)) {
-        throw 'You must set the $env:OpenAIKey environment variable to your OpenAI API key. https://beta.openai.com/account/api-keys'
-    }
+    # if (!(Test-OpenAIKey)) {
+    #     throw 'You must set the $env:OpenAIKey environment variable to your OpenAI API key. https://beta.openai.com/account/api-keys'
+    # }
 
     $body = [ordered]@{
         model             = $model
@@ -70,31 +70,8 @@ function Get-GPT3Completion {
 
     $body = $body | ConvertTo-Json -Depth 5
     $body = [System.Text.Encoding]::UTF8.GetBytes($body)
-    $params = @{
-        Uri         = "https://api.openai.com/v1/completions" 
-        Method      = 'Post' 
-        Headers     = @{Authorization = "Bearer $($env:OpenAIKey)" } 
-        ContentType = 'application/json'
-        #body        = $body | ConvertTo-Json -Depth 5
-        body        = $body
-    }    
     
-    #$params["body"] = [System.Text.Encoding]::UTF8.GetBytes($json)
-    
-    if ($PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
-        if ($env:USERNAME -eq 'finke') { $exclude = 'Headers' }
-
-        $params | 
-        ConvertTo-Json -Depth 10 | 
-        ConvertFrom-Json | 
-        Select-Object * -ExcludeProperty $exclude |
-        Format-List |
-        Out-Host
-    }
-
-    # Write-Progress -Activity 'PowerShellAI' -Status 'Processing GPT repsonse. Please wait...'
-
-    $result = Invoke-RestMethod @params
+    $result = Invoke-OpenAIAPI -Uri (Get-OpenAICompletionsURI) -Method 'Post' -Body $body
 
     if ($Raw) {
         $result
