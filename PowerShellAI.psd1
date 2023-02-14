@@ -1,13 +1,13 @@
 @{
     RootModule        = 'PowerShellAI.psm1'
-    ModuleVersion     = '0.3.3'
+    ModuleVersion     = '0.4.5'
     GUID              = '081ce7b4-6e63-41ca-92a7-2bf72dbad018'
     Author            = 'Douglas Finke'
     CompanyName       = 'Doug Finke'
     Copyright         = 'c 2023 All rights reserved.'
 
     Description       = @'
-PowerShell GPT AI module allows to integrate with OpenAI API and access GPT-3 model and easily to use with other PowerShell scripts and tools.
+The PowerShell AI module integrates with the OpenAI API and let's you easily access the GPT models for text completion, image generation and more.
 '@
 
     FunctionsToExport = @(
@@ -18,7 +18,17 @@ PowerShell GPT AI module allows to integrate with OpenAI API and access GPT-3 mo
         'Enable-AIShortCutKey'
         'Get-DalleImage'
         'Get-GPT3Completion'
+        'Get-OpenAIModel'
+        'Get-OpenAIModeration'
+        'Invoke-OpenAIAPI'
         'Set-DalleImageAsWallpaper'
+        'Get-OpenAIBaseRestUri'
+        'Get-OpenAICompletionsUri'
+        'Get-OpenAIImagesGenerationsUri'
+        'Get-OpenAIModelsUri'
+        'Get-OpenAIModerationsUri'
+		'Get-OpenAIEditsUri'
+		'Get-OpenAIEdit'
     )
 
     AliasesToExport   = @(
